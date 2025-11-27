@@ -77,10 +77,10 @@ namespace UniFramework.Event
             {
                 foreach (var listener in _subscribers)
                 {
-                    if (listener.Callback == callback)
+                    if (listener.IsDestroyed == false && listener.Callback == callback)
                     {
-                        listener.IsDestroyed = true; //注意：标记销毁（只移除一个）
-                        break;
+                        listener.IsDestroyed = true; //注意：标记销毁，在下次该事件广播的时候移除！
+                        break; //注意：在可重复注册机制下，每次只移除一个！
                     }
                 }
             }
